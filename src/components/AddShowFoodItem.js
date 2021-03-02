@@ -5,19 +5,46 @@
 // Divider
 // Proteins , Carbs, Fats
 // Add item button
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import React, {useState} from 'react'
+import { Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from "@material-ui/core/Divider";
+import { makeStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { useHistory } from 'react-router-dom'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    layout: {
+        width: "auto",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+          width: 700,
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
+      },
+    paper2: {
+      marginTop: theme.spacing(3),
+      borderRadius:"40px",
+      marginBottom: theme.spacing(3),
+      padding: theme.spacing(2),
+      backgroundColor: "#ffffff",
+      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+        width: 400,
+        height: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        padding: theme.spacing(3)
+      }
+    },
     card:{
       backgroundColor:"#A9CCE3",
       height:100,
@@ -92,16 +119,98 @@ const useStyles = makeStyles({
         height: "160px",
         width: "160px",
     },
-});
+}));
 
-const AddShowFoodItem = () => {
+const AddShowFoodItem = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    let calorie = props.location.state.props.calories
+    let protein = props.location.state.props.proteins
+    let carb = props.location.state.props.carbs
+    let fat = props.location.state.props.fats
+    let EatingTime = props.location.state.props.EatingTime
+
+    const [quantity, setQuantity] = useState(0.5);
+    const [calories, setCalories] = useState(parseInt(calorie));
+    const [proteins, setProteins] = useState(parseFloat(protein));
+    const [carbs, setCarbs] = useState(parseFloat(carb));
+    const [fats, setFats] = useState(parseFloat(fat));
+    
+    console.log(props)
+    console.log(props.location.state.props.ids)
+    console.log(props.location.state.props.itemName)
+    console.log(props.location.state.props.calories)
+    console.log(props.location.state.props.proteins)
+    console.log(props.location.state.props.carbs)
+    console.log(props.location.state.props.fats)
+    console.log(props.location.state.props.EatingTime)
+
+    const handleClick = () =>{
+        history.goBack('');
+    }
+
+    const handleIncrease= () =>{
+            setQuantity(prevState => prevState + 0.5);
+            setCalories(prevState => prevState + parseInt(calorie));
+            setProteins(prevState => prevState + (parseFloat(calorie)));
+            setCarbs(prevState => prevState + (parseFloat(carb)));
+            setFats(prevState => prevState + (parseFloat(fat)));
+    }
+
+    const handleDecrease= () =>{
+    if(quantity === 0.5)
+        {
+            setQuantity(prevState => prevState - 0);
+            setCalories(prevState => prevState - 0);
+            setProteins(prevState => prevState - 0);
+            setCarbs(prevState => prevState - 0);
+            setFats(prevState => prevState - 0);
+            // setCalories(prevState => prevState - 0);
+            // setProteins(prevState => prevState - 0);
+            // setCarbs(prevState => prevState - 0);
+            // setFats(prevState => prevState - 0);
+        }
+    else{
+            setQuantity(prevState => prevState - 0.5);
+            setCalories(prevState => prevState - parseInt(calorie));
+            setProteins(prevState => prevState - (parseFloat(calorie)));
+            setCarbs(prevState => prevState - (parseFloat(carb)));
+            setFats(prevState => prevState - (parseFloat(fat)));
+            // setCalories(prevState => prevState - props.location.state.props.calories);
+            // setProteins(prevState => prevState - props.location.state.props.proteins);
+            // setCarbs(prevState => prevState - props.location.state.props.carbs);
+            // setFats(prevState => prevState - props.location.state.props.fats);
+        }
+    }
+
+    const [details, setDetails] = useState({quant: {quantity},
+                                            calor: {calories},
+                                            EatingTime: {EatingTime}
+                                        })
+    console.log(details);
+
+    const onSubmit = () =>{
+        console.log(quantity);
+        console.log(calories);
+        console.log(proteins);
+        console.log(carbs);
+        console.log(fats);
+
+        history.push({
+            pathname:'/',
+            state: {details},
+     });
+    }
+    
     return (
-        <div>
+        <div >
+        <div className={classes.layout}>
+         <Paper className={classes.paper2}>
             <div className={classes.headPage}>
                 <div className={classes.headTop}>
                     <div>
-                        <IconButton>
+                        <IconButton onClick={handleClick}>
                             <ArrowBackIosIcon className={classes.icon} color="primary"/>
                         </IconButton>
                     </div>
@@ -112,7 +221,7 @@ const AddShowFoodItem = () => {
                 </div>
                 <div style={{display:"flex",
                                 justifyContent:"center"}}>
-                        <Typography className={classes.textWhite} variant="h5">Jower Dosa</Typography>
+                        <Typography className={classes.textWhite} variant="h5">{props.location.state.props.itemName}</Typography>
                 </div>
                 <div className={classes.controllerMain}>
                     <Typography style={{display:"flex",
@@ -121,15 +230,15 @@ const AddShowFoodItem = () => {
                     <div className={classes.controller}>
                         <div>
                             <IconButton>
-                                <RemoveCircleIcon style={{transform: 'scale(1.5)'}} className={classes.icon} color="primary"/>
+                                <RemoveCircleIcon onClick={handleDecrease} style={{transform: 'scale(1.5)'}} className={classes.icon} color="primary"/>
                             </IconButton>
                         </div>
                         <div>
-                            <Typography className={classes.textWhite} variant="h4">0.5</Typography>
+                            <Typography className={classes.textWhite} variant="h4">{quantity}</Typography>
                         </div>
                         <div>
                             <IconButton>
-                                <AddCircleIcon style={{transform: 'scale(1.5)'}} className={classes.icon} color="primary"/>
+                                <AddCircleIcon onClick={handleIncrease} style={{transform: 'scale(1.5)'}} className={classes.icon} color="primary"/>
                             </IconButton>
                         </div>
                     </div>
@@ -147,7 +256,7 @@ const AddShowFoodItem = () => {
                     <IconButton>
                         <RestaurantIcon style={{transform: 'scale(1.5)'}} color="textSecondary"/>
                     </IconButton>
-                    <Typography style={{marginTop:"7px"}} variant="h6">56 Calories</Typography>
+                    <Typography style={{marginTop:"7px"}} variant="h6">{calories} Calories</Typography>
                 </div>
                 <div></div>
 
@@ -162,7 +271,7 @@ const AddShowFoodItem = () => {
                     </div>
                     <div>
                         <Typography variant="h6">Proteins</Typography>
-                        <Typography variant="h6">1.75 g</Typography>
+                        <Typography variant="h6">{proteins.toFixed(2)} g</Typography>
                     </div>
                 </div>
                 <div className={classes.BarDetails}>
@@ -171,7 +280,7 @@ const AddShowFoodItem = () => {
                     </div>
                     <div>
                         <Typography variant="h6">Carbs</Typography>
-                        <Typography variant="h6">8.4 g</Typography>
+                        <Typography variant="h6">{carbs.toFixed(2)} g</Typography>
                     </div>
                 </div>
                 <div className={classes.BarDetails}>
@@ -180,14 +289,17 @@ const AddShowFoodItem = () => {
                     </div>
                     <div>
                         <Typography variant="h6">Fats</Typography>
-                        <Typography variant="h6">1.55 g</Typography>
+                        <Typography variant="h6">{fats.toFixed(2)} g</Typography>
                     </div>
                 </div>
             </div>
             <div>
-                <Button fullWidth className={classes.button}>Add to BreakFast</Button>
+                <Button onClick={onSubmit} fullWidth className={classes.button}>Add to {props.location.state.props.EatingTime}</Button>
             </div>
+            </Paper>
         </div>
+      </div>
+
     )    
 }
 

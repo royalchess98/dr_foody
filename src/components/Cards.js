@@ -3,10 +3,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlinedIcon from '@material-ui/icons/AddCircleOutlined';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     card:{
@@ -35,10 +35,20 @@ const useStyles = makeStyles({
   
   const Cards = (props) => {
     const classes = useStyles();
-      
+    let history = useHistory();
+    
     const handleCLick = () =>{
-            return <Redirect to="/SearchItems" />
-    }
+            
+            console.log(props.id);
+            console.log(props.EatingTime);
+            console.log(props.items);
+            console.log(props.cals);
+          
+        history.push({
+            pathname: './SearchItems',
+            state: {props}
+              });
+         }
 
     return (
         <div>
@@ -52,7 +62,7 @@ const useStyles = makeStyles({
                                 display:"flex"
                                 }}>
                                 <Avatar aria-label="recipe" className={classes.avatar}>
-                                    <img className={classes.img} src={props.img} />
+                                    <img className={classes.img} src={props.img} alt="eating time"/>
                                 </Avatar>
                                 <div style={{marginTop:"12px", marginLeft:"22px"}}>
                                     <Typography variant="h5" >

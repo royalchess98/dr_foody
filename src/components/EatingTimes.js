@@ -5,21 +5,52 @@
 // Dinner Card\
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { Grid, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import FoodData from './FoodData'
 import Cards from './Cards'
 
-const useStyles = makeStyles({
+  const useStyles = makeStyles((theme) => ({
     root: {
       minWidth: 275,
     },
-  });
-
+    layout: {
+        width: "auto",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+          width: 700,
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
+      },
+    paper1: {
+      marginTop: theme.spacing(3),
+      borderRadius:"40px",
+      marginBottom: theme.spacing(3),
+      padding: theme.spacing(2),
+      backgroundColor: "#E2ECF5",
+      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+        width: 400,
+        height: 600,
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        padding: theme.spacing(3)
+      }
+    },
   
-const EatingTimes = () => {
+  }));
+  
+const EatingTimes = (props) => {
+    console.log(props)
     const classes = useStyles();
+
     return (
+      <div >
+       <div className={classes.layout}>
+        <Paper className={classes.paper1}>
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -69,6 +100,9 @@ const EatingTimes = () => {
                 </Grid>
             </Grid>
         </div>
+        </Paper>
+        </div>
+      </div>
     )
 }
 

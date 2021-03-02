@@ -1,11 +1,10 @@
 import React from 'react'
-import { Paper } from '@material-ui/core';
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import EatingTimes from './components/EatingTimes.js'
 import AddShowFoodItem from './components/AddShowFoodItem'
 import SearchItems from './components/SearchItems'
 import AddTheFoodItemtoMain from './components/AddTheFoodItemtoMain'
-import { Redirect, BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -70,20 +69,12 @@ const Foody = () => {
               <BrowserRouter>
                   <div className="App"
                           style={{backgroundColor:'78E4FF'}}>
-                    <Switch>
-                          <Paper className={classes.paper1}>
+                         <Switch>
                               <Route exact path='/' component={EatingTimes} />     
-                          </Paper>
-                          <Paper className={classes.paper2}>
-                              <Route to="/AddShowFoodItem" component={AddShowFoodItem} />     
-                          </Paper>
-                          <Paper className={classes.paper2}>
-                              <Route to="/SearchItems" component={SearchItems} />     
-                          </Paper>
-                          <Paper className={classes.paper1}>
+                              <Route path='/SearchItems' component={SearchItems} />     
+                              <Route path='/AddShowFoodItem' component={AddShowFoodItem} />     
                               <Route path='/AddTheFoodItemtoMain' component={AddTheFoodItemtoMain} />     
-                          </Paper>
-                    </Switch>
+                        </Switch>
                   </div>
               </BrowserRouter>
             </div>

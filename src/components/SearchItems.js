@@ -2,25 +2,47 @@
 // Search bar
 // Show Search Items
 // Opaque Add the item to main array to input
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import Divider from "@material-ui/core/Divider";
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import RestaurantIcon from '@material-ui/icons/Restaurant';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import InputBase from '@material-ui/core/InputBase';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import ItemData from './ItemData'
 import ItemLine from './ItemLine'
-import { Link } from 'react-router-dom';
+import { Paper } from '@material-ui/core';
+import { useHistory } from 'react-router-dom'
 
-const useStyles = makeStyles({
+
+const useStyles = makeStyles((theme) => ({
+    layout: {
+        width: "auto",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+          width: 700,
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
+      },
+    paper2: {
+      marginTop: theme.spacing(3),
+      borderRadius:"40px",
+      marginBottom: theme.spacing(3),
+      padding: theme.spacing(2),
+      backgroundColor: "#ffffff",
+      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+        width: 400,
+        height: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        padding: theme.spacing(3)
+      }
+    },
     card:{
       backgroundColor:"#A9CCE3",
       height:100,
@@ -85,12 +107,21 @@ const useStyles = makeStyles({
         width:"100%",
         height:"100%"
     }
-});
+}));
 
 
-const SearchItems = () => {
+const SearchItems = (props) => {
+    console.log(props)
+    console.log(props.location.state.props.id)
+    console.log(props.location.state.props.EatingTime)
+    console.log(props.location.state.props.items)
+    console.log(props.location.state.props.cals)
     const classes = useStyles();
+    const history = useHistory();
 
+    const handleCLick = () =>{
+        history.goBack('/');
+    }
     const allItems = []
     const [value, setValue] = useState("")
 
@@ -112,21 +143,28 @@ const SearchItems = () => {
         allItems.push(
         <div>
             <ItemLine 
-            key={ItemData[minArray].key}
+            ids={ItemData[minArray].ids}
             itemName={ItemData[minArray].itemName}
+            calories={ItemData[minArray].calories}
+            proteins={ItemData[minArray].proteins}
+            carbs={ItemData[minArray].carbs}
+            fats={ItemData[minArray].fats}
+            EatingTime={props.location.state.props.EatingTime}
             />
         </div>)
         }
       }
-
-    
+      
 
     return (
+        <div >
+        <div className={classes.layout}>
+         <Paper className={classes.paper2}>
         <div className={classes.page}>
             <div className={classes.headPage}>
                 <div className={classes.headTop}>
                     <div>
-                        <IconButton>
+                        <IconButton onClick={handleCLick}>
                             <ArrowBackIosIcon className={classes.icon} color="primary"/>
                         </IconButton>
                     </div>
@@ -158,6 +196,7 @@ const SearchItems = () => {
                     <img width="160px" 
                         height="160px" 
                         src="https://cdn3.vectorstock.com/i/thumb-large/63/57/dietitian-doctor-fresh-market-smartphone-offering-vector-31786357.jpg" 
+                        alt="Anu"
                     />
                 </div>
                 <div style={{display:"flex",
@@ -200,6 +239,9 @@ const SearchItems = () => {
                 </div>
             </div> 
         </div>
+        </Paper>
+        </div>
+      </div>
     )    
 }
 
