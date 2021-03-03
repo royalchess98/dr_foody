@@ -145,7 +145,6 @@ const AddShowFoodItem = (props) => {
     console.log(props.location.state.props.carbs)
     console.log(props.location.state.props.fats)
     console.log(props.location.state.props.EatingTime)
-
     const handleClick = () =>{
         history.goBack('');
     }
@@ -153,7 +152,7 @@ const AddShowFoodItem = (props) => {
     const handleIncrease= () =>{
             setQuantity(prevState => prevState + 0.5);
             setCalories(prevState => prevState + parseInt(calorie));
-            setProteins(prevState => prevState + (parseFloat(calorie)));
+            setProteins(prevState => prevState + (parseFloat(protein)));
             setCarbs(prevState => prevState + (parseFloat(carb)));
             setFats(prevState => prevState + (parseFloat(fat)));
     }
@@ -177,22 +176,18 @@ const AddShowFoodItem = (props) => {
             setProteins(prevState => prevState - (parseFloat(calorie)));
             setCarbs(prevState => prevState - (parseFloat(carb)));
             setFats(prevState => prevState - (parseFloat(fat)));
-            // setCalories(prevState => prevState - props.location.state.props.calories);
-            // setProteins(prevState => prevState - props.location.state.props.proteins);
-            // setCarbs(prevState => prevState - props.location.state.props.carbs);
-            // setFats(prevState => prevState - props.location.state.props.fats);
         }
     }
 
-    const [details, setDetails] = useState({quant: {quantity},
-                                            calor: {calories},
-                                            EatingTime: {EatingTime}
-                                        })
+    const details = {quant: {quantity},
+                     calor: {calories},
+                     EatingTime: {EatingTime}
+                                        }
     console.log(details);
 
     const onSubmit = () =>{
         console.log(quantity);
-        console.log(calories);
+        console.log(calories);  
         console.log(proteins);
         console.log(carbs);
         console.log(fats);
